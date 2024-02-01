@@ -4,7 +4,6 @@
 pub mod numnft {
 
     use ink::prelude::string::String;
-    // use ink_e2e::env_logger::fmt::Timestamp;
 
     #[ink(storage)]
     pub struct NFT {
@@ -32,8 +31,17 @@ pub mod numnft {
 
         #[ink(message)]
         pub fn get_owner_name(&self) -> String {
-            let own = self.owner_name.clone();
-            own
+            self.owner_name.clone()
+        }
+
+        #[ink(message)]
+        pub fn get_owner(&self) -> AccountId {
+            self.owner.clone()
+        }
+
+        #[ink(message)]
+        pub fn get_timestamp(&self) -> Timestamp {
+            self.creationtime
         }
 
         #[ink(message)]
@@ -42,7 +50,7 @@ pub mod numnft {
                 self.owner_name = new_owner_name;
                 self.owner = new_owner;
             } else {
-                panic!("Error You are not the owner");
+                panic!("Only the legitimate owner of this NFT can sell this");
             }
         }
     }
